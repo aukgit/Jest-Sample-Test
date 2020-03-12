@@ -12,7 +12,7 @@ class DeepCloner {
      * @param {*} original deep copy the original object.
      */
     static deepClone(original) {
-        return JSON.parse(objectToJsonString(original));
+        return JSON.parse(this.objectToJsonString(original));
     }
 }
 

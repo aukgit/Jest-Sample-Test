@@ -1,3 +1,3 @@
-const cloningUtility = require('./cloningUtility');
+const cloningUtility = require('./cloningUtility').CloningUtility;
 
 cloningUtility.performClone();

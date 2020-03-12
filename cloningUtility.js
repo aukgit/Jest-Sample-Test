@@ -1,6 +1,16 @@
 var deepCloner = require("./deepCopy").DeepCloner;
 
 class CloningUtility {
+    /**
+     * return a object
+     * {
+     *      name: "Paddy",
+     *      address: {
+     *          town: "Lerum",
+     *          country: "Sweden"
+     *      }
+     *  }
+     */
     static genericPerson() {
         return {
             name: "Paddy",
@@ -11,6 +21,9 @@ class CloningUtility {
         };
     }
 
+    /**
+     * perform deep cloning and logs to console.
+     */
     static performClone() {
         const person = this.genericPerson();
         let clonedObject = deepCloner.deepClone(person);
