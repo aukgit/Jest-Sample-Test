@@ -4,7 +4,7 @@ class DeepCloner {
      * @param {*} original 
      */
     static objectToJsonString(original) {
-        return JSON.stringify(original);
+        return original ? JSON.stringify(original) : '';
     }
 
     /**
