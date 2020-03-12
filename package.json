@@ -1,0 +1,31 @@
+{
+  "name": "JestSampleTest",
+  "version": "1.0.0",
+  "license": "MIT License",
+  "keywords": [],
+  "author": "",
+  "description": "",
+  "main": "app.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aukgit/Jest-Sample-Test.git"
+  },
+  "bugs": {
+    "url": "https://github.com/aukgit/Jest-Sample-Test/issues"
+  },
+  "homepage": "https://github.com/aukgit/Jest-Sample-Test",
+  "scripts": {
+    "test": "jest --coverage",
+    "dev": "jest --coverage --watch"
+  },
+  "dependencies": {
+    "moment": "2.24.0",
+    "uuid": "3.3.3"
+  },
+  "devDependencies": {
+    "@types/node": "~8.9.4",
+    "@types/uuid": "3.4.6",
+    "jest": "25.1.0",
+    "prettier": "1.19.1"
+  }
+}
