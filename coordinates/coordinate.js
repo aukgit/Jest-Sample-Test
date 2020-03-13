@@ -33,7 +33,7 @@ class Coordinate {
 
         anotherCoordinate.throwIfInvalid();
 
-        const converterUtility = require('./converterUtility').ConverterUtility;
+        const converterUtility = require('../utilities/converterUtility').ConverterUtility;
 
         return converterUtility.getDistance(
             this.x,
