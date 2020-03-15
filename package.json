@@ -16,7 +16,7 @@
   "homepage": "https://github.com/aukgit/Jest-Sample-Test",
   "scripts": {
     "test": "jest --coverage",
-    "dev": "jest --coverage --watch"
+    "dev": "jest --coverage --watchAll"
   },
   "dependencies": {
     "moment": "2.24.0",
