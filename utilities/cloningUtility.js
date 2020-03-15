@@ -1,4 +1,4 @@
-var deepCloner = require('../cloner/deepCopy').DeepCloner;
+var deepCloner = require('../cloner/deepCloner').DeepCloner;
 
 class CloningUtility {
     /**
