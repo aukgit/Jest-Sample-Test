@@ -1,22 +1,22 @@
-var deepCloner = require("./deepCopy").DeepCloner;
+var deepCloner = require('../cloner/deepCloner').DeepCloner;
 
 class CloningUtility {
     /**
      * return a object
      * {
-     *      name: "Paddy",
+     *      name: 'Paddy',
      *      address: {
-     *          town: "Lerum",
-     *          country: "Sweden"
+     *          town: 'Lerum',
+     *          country: 'Sweden'
      *      }
      *  }
      */
     static genericPerson() {
         return {
-            name: "Paddy",
+            name: 'Paddy',
             address: {
-                town: "Lerum",
-                country: "Sweden"
+                town: 'Lerum',
+                country: 'Sweden'
             }
         };
     }
