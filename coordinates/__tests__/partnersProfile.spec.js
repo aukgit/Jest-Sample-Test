@@ -224,51 +224,6 @@ describe('PartnersProfile class tests', () => {
     });
   });
 
-  describe('PartnersProfile.getQuickestDistanseProfilesWithinHundredKilometers() gets filtered profiles display array.', () => {
-    test(`[Mutation] getQuickestDistanseProfilesWithinHundredKilometers() must be called at once.`, () => {
-      // Arrange
-      const expectedCalls = 1;
-      const message = 'No filter data found within 100km rage.';
-      const mock = jest.spyOn(instance, instance.getQuickestDistanseProfilesWithinHundredKilometers.name);
-      mock.mockImplementation(_ => []);
-      const consoleMock = jest.spyOn(global.console, 'warn');
-      consoleMock.mockImplementation(_ => { });
-
-      // Act
-      instance.getPartnerProfilesWithinHundredKilometersOrderByCompanyNamesDisplay();
-
-      // Assert
-      expect(mock).toHaveBeenCalledTimes(expectedCalls);
-      expect(consoleMock).toHaveBeenCalledWith(message);
-
-      // Mock-Restore / Tear down
-      mock.mockRestore();
-      consoleMock.mockRestore();
-    });
-
-    test(`[Integration] getQuickestDistanseProfilesWithinHundredKilometers() creates display string.`, () => {
-      // Arrange
-      const expectedCalls = 1;
-      const mock = jest.spyOn(instance, instance.getQuickestDistanseProfilesWithinHundredKilometers.name);
-      mock.mockImplementation(_ => sampleProfiles);
-
-      // Act
-      const actualResults = instance.getPartnerProfilesWithinHundredKilometersOrderByCompanyNamesDisplay();
-
-      // Assert
-      expect(mock).toHaveBeenCalledTimes(expectedCalls);
-      expect(actualResults).toBeDefined();
-
-      for (let index = 0; index < actualResults.length; index++) {
-        const profileDisplay = actualResults[index];
-        expect(profileDisplay.indexOf(' Company/Organization Name: "') > -1).toBeTruthy();
-      }
-
-      // Mock-Restore / Tear down
-      mock.mockRestore();
-    });
-  });
-
   it('idealCoordinate should be "51.515419,-0.141099"', () => {
     expect(idealCoordinate.coordinates).toBe('51.515419,-0.141099');
   });
