@@ -4,7 +4,15 @@ class DeepCloner {
      * @param {*} original 
      */
     static objectToJsonString(original) {
-        return original ? JSON.stringify(original) : '';
+        const isInvalidType = typeof (original) === 'function' ||
+            typeof (original) === 'string' ||
+            typeof (original) === 'number';
+
+        if (!original || isInvalidType) {
+            throw new Error('Invalid type null/undefined/function/string/number.');
+        }
+
+        return JSON.stringify(original);
     }
 
     /**
