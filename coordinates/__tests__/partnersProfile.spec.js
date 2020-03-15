@@ -3,6 +3,7 @@ const idealCoordinate = require('../partnersProfile').IdealCoordinate;
 const PartnersProfile = require('../partnersProfile').PartnersProfile;
 const path = '...';
 const instance = new PartnersProfile(path);
+const deepCloner  = require('../../cloner/deepCloner').DeepCloner;
 
 const sampleProfiles = [
   {
@@ -266,6 +267,60 @@ describe('PartnersProfile class tests', () => {
       // Mock-Restore / Tear down
       mock.mockRestore();
       filterMock.mockRestore();
+    });
+  });
+
+  describe('.isCurrentAddressWithinHundredKilomitersRangeExceptDropAddress(partnerProfile, officeIndex) returns true if within 100Km range and mutates or removes office address from array if not within range.', () => {
+    test(`Is within 100km range, adds distance and don't remove from office address.`, () => {
+      // Arrange
+      const expectedCalls = 1;
+      const getDistanceMock = jest.spyOn(idealCoordinate, 'getDistanceOf');
+      const returningDistance = 96;
+      getDistanceMock.mockImplementation(_ => returningDistance);
+      const sampleProfile = deepCloner.deepClone(sampleProfiles[0]);
+      const officeIndex = 0;
+      const coordinates = sampleProfile.offices[officeIndex].coordinates;
+      const currentCordinate = new Coordinate(coordinates);
+
+      // Act
+      const actual = instance.isCurrentAddressWithinHundredKilomitersRangeExceptDropAddress(sampleProfile, officeIndex);
+
+      // Assert
+      expect(actual).toBeTruthy();
+      expect(getDistanceMock).toHaveBeenCalledTimes(expectedCalls);
+      expect(getDistanceMock).toHaveBeenCalledWith(currentCordinate);
+      expect(sampleProfile.offices[officeIndex].distance).toBe(returningDistance);
+
+      // Mock-Restore / Tear down
+      getDistanceMock.mockRestore();
+    });
+
+    test(`Is NOT within 100km range (> 100KM), adds distance and don't remove from office address.`, () => {
+      // Arrange
+      const expectedCalls = 1;
+      const getDistanceMock = jest.spyOn(idealCoordinate, 'getDistanceOf');
+      const returningDistance = 110;
+      getDistanceMock.mockImplementation(_ => returningDistance);
+      const sampleProfile = deepCloner.deepClone(sampleProfiles[0]);
+      const officeIndex = 0;
+      const coordinates = sampleProfile.offices[officeIndex].coordinates;
+      const officesLength =  sampleProfile.offices.length;
+      const currentOffice = sampleProfile.offices[officeIndex];
+      const currentCordinate = new Coordinate(coordinates);
+
+      // Act
+      const actual = instance.isCurrentAddressWithinHundredKilomitersRangeExceptDropAddress(sampleProfile, officeIndex);
+
+      // Assert
+      expect(actual).toBeFalsy();
+      expect(getDistanceMock).toHaveBeenCalledTimes(expectedCalls);
+      expect(getDistanceMock).toHaveBeenCalledWith(currentCordinate);
+      expect(sampleProfile.offices.length).toBe(officesLength - 1);
+      expect(sampleProfile.offices[officeIndex]).not.toBe(currentOffice);
+      expect(sampleProfile.offices[officeIndex].address).not.toBe(currentOffice.address);
+
+      // Mock-Restore / Tear down
+      getDistanceMock.mockRestore();
     });
   });
 
