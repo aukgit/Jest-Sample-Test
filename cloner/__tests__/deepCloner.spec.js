@@ -11,8 +11,8 @@ describe('deep copy/cloning', () => {
 
     test('function \'' + functionName + '\'(arg) exist and has one argumnet.', () => {
       // Assert
-      expect(typeof (functionInTest)).toEqual('function');
-      expect(functionInTest.length).toEqual(1);
+      expect(typeof (functionInTest)).toBe('function');
+      expect(functionInTest.length).toBe(1);
     });
 
     // Arrange
@@ -25,7 +25,7 @@ describe('deep copy/cloning', () => {
       [functionInTest, 'function f() {...}']
     ];
 
-    test.each(invalidTestCases)('Invalid Input(%p->%s) should throw Error with message "' + errorMessage + '"', (input, inputStringName) => {
+    test.each(invalidTestCases)('Invalid Input(%p->%s) should throw Error with message "' + errorMessage + '"', (input) => {
       let actualThrownError = null;
 
       // Act
@@ -137,7 +137,7 @@ describe('deep copy/cloning', () => {
 
       // Assert
       // (jsonSample != actual) Just to confrim same memory object is not returned. 
-      // Even with shadow copy it (jsonSample != actual) will pass.
+      // Even with shadow copy it (jsonSample !== actual) will pass.
       expect(jsonSample).not.toBe(actual);
       expect(jsonSample.id).toBe(originalId);
       expect(actual.id).toBe(clonedId);
