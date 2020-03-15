@@ -55,7 +55,7 @@ const sampleProfiles = [
 ];
 
 describe('PartnersProfile class tests', () => {
-  describe('PartnersProfile.constructor(string)', () => {
+  describe('.constructor(string)', () => {
     // Arrange (Global for this method only)
     const errorMessage = 'Given profile path is empty or invalid.';
 
@@ -98,7 +98,7 @@ describe('PartnersProfile class tests', () => {
     });
   });
 
-  describe('PartnersProfile.debugPrintPartnerProfilesWithinHundredKilometersOrderByCompanyName() displays ', () => {
+  describe('.debugPrintPartnerProfilesWithinHundredKilometersOrderByCompanyName() displays ', () => {
     const expectedMessage = 'No records found within range.';
     const testCases = [
       [null, expectedMessage],
@@ -131,7 +131,7 @@ describe('PartnersProfile class tests', () => {
     });
   });
 
-  describe('PartnersProfile.partnerProfileOrderByCompanyNameAscending() ascending sorting (f.organization - l.organization) ', () => {
+  describe('.partnerProfileOrderByCompanyNameAscending() ascending sorting (f.organization - l.organization) ', () => {
     const expectedMessage = 'Given profile is either invalid or doesn\' have "organization" property.';
     const validProfileWithOrganization = { organization: 5 };
     const validProfileWithOrganization2 = { organization: 3 };
@@ -179,7 +179,7 @@ describe('PartnersProfile class tests', () => {
     });
   });
 
-  describe('PartnersProfile.getPartnerProfilesWithinHundredKilometersOrderByCompanyNamesDisplay() gets filtered profiles display array.', () => {
+  describe('.getPartnerProfilesWithinHundredKilometersOrderByCompanyNamesDisplay() gets filtered profiles display array.', () => {
     test(`[Mutation] getQuickestDistanseProfilesWithinHundredKilometers() must be called at once.`, () => {
       // Arrange
       const expectedCalls = 1;
@@ -201,7 +201,7 @@ describe('PartnersProfile class tests', () => {
       consoleMock.mockRestore();
     });
 
-    test(`[Integration] getQuickestDistanseProfilesWithinHundredKilometers() creates display string.`, () => {
+    test(`[Integration] creates display string.`, () => {
       // Arrange
       const expectedCalls = 1;
       const mock = jest.spyOn(instance, instance.getQuickestDistanseProfilesWithinHundredKilometers.name);
@@ -221,6 +221,51 @@ describe('PartnersProfile class tests', () => {
 
       // Mock-Restore / Tear down
       mock.mockRestore();
+    });
+  });
+
+  describe('.getQuickestDistanseProfilesWithinHundredKilometers() gets filtered profiles.', () => {
+    test(`[Mutation] getPartnerProfiles() must be called at once.`, () => {
+      // Arrange
+      const expectedCalls = 1;
+      const message = 'No partners profile found';
+      const mock = jest.spyOn(instance, instance.getPartnerProfiles.name);
+      mock.mockImplementation(_ => []);
+      const consoleMock = jest.spyOn(global.console, 'log');
+      consoleMock.mockImplementation(_ => { });
+
+      // Act
+      instance.getQuickestDistanseProfilesWithinHundredKilometers();
+
+      // Assert
+      expect(mock).toHaveBeenCalledTimes(expectedCalls);
+      expect(consoleMock).toHaveBeenCalledWith(message);
+
+      // Mock-Restore / Tear down
+      mock.mockRestore();
+      consoleMock.mockRestore();
+    });
+
+    test(`filterPartnerProfileWithinHundredKilometers() must be called for filtering.`, () => {
+      // Arrange
+      const expectedCalls = 1;
+      const mock = jest.spyOn(instance, instance.getPartnerProfiles.name);
+      mock.mockImplementation(_ => sampleProfiles);
+      const filterMock = jest.spyOn(instance, instance.filterPartnerProfileWithinHundredKilometers.name);
+      filterMock.mockImplementation(_ => true);
+
+      // Act
+      const actualResults = instance.getQuickestDistanseProfilesWithinHundredKilometers();
+
+      // Assert
+      expect(actualResults).toBeDefined();
+      expect(actualResults).toStrictEqual(sampleProfiles);
+      expect(mock).toHaveBeenCalledTimes(expectedCalls);
+      expect(filterMock).toHaveBeenCalledTimes(sampleProfiles.length);
+
+      // Mock-Restore / Tear down
+      mock.mockRestore();
+      filterMock.mockRestore();
     });
   });
 
