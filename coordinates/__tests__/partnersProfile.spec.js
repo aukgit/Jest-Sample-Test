@@ -1,9 +1,10 @@
 const Coordinate = require('../coordinate').Coordinate;
 const idealCoordinate = require('../partnersProfile').IdealCoordinate;
 const PartnersProfile = require('../partnersProfile').PartnersProfile;
-const path = '...';
+const path = ',notValidPath';
 const instance = new PartnersProfile(path);
-const deepCloner  = require('../../cloner/deepCloner').DeepCloner;
+const deepCloner = require('../../cloner/deepCloner').DeepCloner;
+const fs = require('fs');
 
 const sampleProfiles = [
   {
@@ -108,7 +109,7 @@ describe('PartnersProfile class tests', () => {
       [['Hello World1'], 'Hello World1']
     ]
 
-    test.each(testCases)(`When (%p->%s), prints "%s"`, (returnArray, message) => {
+    test.each(testCases)(`When (%p), prints "%s"`, (returnArray, message) => {
       // Arrange
       const mockingMethodName = instance.getPartnerProfilesWithinHundredKilometersOrderByCompanyNamesDisplay.name;
       const getPartnerProfilesWithinHundredKilometersOrderByCompanyNamesDisplayMock = jest.spyOn(instance, mockingMethodName);
@@ -206,7 +207,9 @@ describe('PartnersProfile class tests', () => {
       // Arrange
       const expectedCalls = 1;
       const mock = jest.spyOn(instance, instance.getQuickestDistanseProfilesWithinHundredKilometers.name);
-      mock.mockImplementation(_ => sampleProfiles);
+      const profiles = deepCloner.deepClone(sampleProfiles);
+      profiles[0].offices = undefined;
+      mock.mockImplementation(_ => profiles);
 
       // Act
       const actualResults = instance.getPartnerProfilesWithinHundredKilometersOrderByCompanyNamesDisplay();
@@ -304,7 +307,7 @@ describe('PartnersProfile class tests', () => {
       const sampleProfile = deepCloner.deepClone(sampleProfiles[0]);
       const officeIndex = 0;
       const coordinates = sampleProfile.offices[officeIndex].coordinates;
-      const officesLength =  sampleProfile.offices.length;
+      const officesLength = sampleProfile.offices.length;
       const currentOffice = sampleProfile.offices[officeIndex];
       const currentCordinate = new Coordinate(coordinates);
 
@@ -324,7 +327,178 @@ describe('PartnersProfile class tests', () => {
     });
   });
 
+  describe('.getPartnerProfiles() reads profile json data file from file system.', () => {
+    test(`[Using Mock] Throws error if given path is not exist in the system.`, () => {
+      // Arrange
+      const expectedCalls = 1;
+      const expectedErrorMessage = `File (${instance.profilePath}) doesn't exist in the fil system.`
+      const getExistsSyncMock = jest.spyOn(fs, fs.existsSync.name);
+      getExistsSyncMock.mockImplementation(_ => false);
+      let actualError;
+
+      // Act
+      try {
+        instance.getPartnerProfiles();
+      } catch (error) {
+        actualError = error;
+      }
+
+      // Assert
+      expect(actualError).toBeDefined();
+      expect(actualError.message).toBe(expectedErrorMessage);
+      expect(getExistsSyncMock).toHaveBeenCalledTimes(expectedCalls);
+
+      // Mock-Restore / Tear down
+      getExistsSyncMock.mockRestore();
+    });
+
+    test(`[Integration] Throws error if given path is not exist in the system.`, () => {
+      // Arrange
+      const expectedErrorMessage = `File (${instance.profilePath}) doesn't exist in the fil system.`
+      let actualError;
+
+      // Act
+      try {
+        instance.getPartnerProfiles();
+      } catch (error) {
+        actualError = error;
+      }
+
+      // Assert
+      expect(actualError).toBeDefined();
+      expect(actualError.message).toBe(expectedErrorMessage);
+    });
+
+    test(`[Valid Path, Using Mock] Returns JSON data.`, () => {
+      // Arrange
+      const expectedCalls = 1;
+      const readFileMock = jest.spyOn(instance, instance.readFileUsingRequire.name);
+      const expected = sampleProfiles;
+
+      readFileMock.mockImplementation(_ => expected);
+      const getExistsSyncMock = jest.spyOn(fs, fs.existsSync.name);
+      getExistsSyncMock.mockImplementation(_ => true);
+
+      // Act
+      const actual = instance.getPartnerProfiles();
+
+      // Assert
+      expect(actual).not.toBe(null);
+      expect(actual).not.toBe(undefined);
+      expect(readFileMock).toHaveBeenCalledTimes(expectedCalls);
+      expect(readFileMock).toHaveBeenCalledWith(instance.profilePath);
+      expect(actual).toBe(expected);
+
+      // Mock-Restore / Tear down
+      readFileMock.mockRestore();
+      getExistsSyncMock.mockRestore();
+    });
+
+    test(`[Valid Path, Using Mock] Returns null and console log while have error during read.`, () => {
+      // Arrange
+      const expectedCalls = 1;
+      const readFileMock = jest.spyOn(instance, instance.readFileUsingRequire.name);
+      const mockedError = new Error('Mocked Error');
+
+      readFileMock.mockImplementation(_ => {
+        throw mockedError;
+      });
+
+      const getExistsSyncMock = jest.spyOn(fs, fs.existsSync.name);
+      getExistsSyncMock.mockImplementation(_ => true);
+      const consoleMock = jest.spyOn(global.console, 'error');
+      consoleMock.mockImplementation(_ => { });
+
+      // Act
+      const actual = instance.getPartnerProfiles();
+
+      // Assert
+      expect(actual).toBeNull();
+      expect(readFileMock).toHaveBeenCalledTimes(expectedCalls);
+      expect(readFileMock).toHaveBeenCalledWith(instance.profilePath);
+      expect(consoleMock).toHaveBeenCalledTimes(expectedCalls);
+      expect(consoleMock).toHaveBeenCalledWith(mockedError);
+
+      // Mock-Restore / Tear down
+      readFileMock.mockRestore();
+      getExistsSyncMock.mockRestore();
+      consoleMock.mockRestore();
+    });
+  });
+
+  describe(`.filterPartnerProfileWithinHundredKilometers() returns true if any address is within range of 100km from IdealCoordinate(${idealCoordinate.coordinates}).`, () => {
+    test(`[Invalid, Integration] Returns false 'office' property doesn't exist 'office'(undefined/null/[]) or profile is undefined/null.`, () => {
+      // Arrange
+      const sampleProfile = deepCloner.deepClone(sampleProfiles[0]);
+      sampleProfile.offices = [];
+
+      // Act
+      const actual = instance.filterPartnerProfileWithinHundredKilometers(sampleProfile);
+      const actual2 = instance.filterPartnerProfileWithinHundredKilometers(null);
+
+      // Assert
+      expect(actual).toBeFalsy();
+      expect(actual2).toBeFalsy();
+    });
+
+    const validSampleProfile = deepCloner.deepClone(sampleProfiles[0]);
+
+    test(`[Valid Input, Using Mock] If office address coordinate is not within range then returns false.`, () => {
+      // Arrange
+      const expectedCalls = 2; // since two office addresses
+      const isAddressExistMock = jest.spyOn(instance, instance.isCurrentAddressWithinHundredKilomitersRangeExceptDropAddress.name);
+      isAddressExistMock.mockImplementation(_ => false);
+
+      // Act
+      const actual = instance.filterPartnerProfileWithinHundredKilometers(validSampleProfile);
+
+      // Assert
+      expect(actual).toBeFalsy();
+      expect(isAddressExistMock).toHaveBeenCalledTimes(expectedCalls);
+
+      // Mock-Restore / Tear down
+      isAddressExistMock.mockRestore();
+    });
+
+    test(`[Valid Input, Using Mock] If office (any) address coordinate is not within range then returns 'true'.`, () => {
+      // Arrange
+      const expectedCalls = 2; // since two office addresses
+      const isAddressExistMock = jest.spyOn(instance, instance.isCurrentAddressWithinHundredKilomitersRangeExceptDropAddress.name);
+      isAddressExistMock.mockImplementation(_ => true);
+
+      // Act
+      const actual = instance.filterPartnerProfileWithinHundredKilometers(validSampleProfile);
+
+      // Assert
+      expect(actual).toBeTruthy();
+      expect(isAddressExistMock).toHaveBeenCalledTimes(expectedCalls);
+
+      // Mock-Restore / Tear down
+      isAddressExistMock.mockRestore();
+    });
+  });
+
   it('idealCoordinate should be "51.515419,-0.141099"', () => {
     expect(idealCoordinate.coordinates).toBe('51.515419,-0.141099');
+  });
+
+  it('[Integration] .readFileUsingRequire() throws exception if invalid path given."', () => {
+    // Arrange
+    let actualError, actualErrorMessage;
+    const invalidPath = 'invalid';
+    const errorMessageContains = `Cannot find module 'invalid' from`;
+
+    // Act
+    try {
+      instance.readFileUsingRequire(invalidPath);
+    } catch (error) {
+      actualError = error;
+      actualErrorMessage = error.message;
+    }
+
+    // Assert
+    expect(actualError).toBeDefined();
+    expect(actualErrorMessage).toBeDefined();
+    expect(actualErrorMessage).toContain(errorMessageContains);
   });
 });

@@ -1,6 +1,7 @@
 const Coordinate = require('./coordinate').Coordinate;
 const idealCoordinateString = '51.515419,-0.141099';
 const idealCoordinate = new Coordinate(idealCoordinateString);
+const fs = require('fs');
 
 class PartnersProfile {
     /**
@@ -14,14 +15,16 @@ class PartnersProfile {
         this.profilePath = profilePath;
     }
 
+    readFileUsingRequire(path) {
+        return require(path);
+    }
+
     /**
      * reading json file from file system and returns the JSON of partners as object.
      */
     getPartnerProfiles() {
-        const fs = require('fs');
-
         if (!fs.existsSync(this.profilePath)) {
-            const errorMessage = 'File (' + this.profilePath + ') doesn\'s exist in the file system.';
+            const errorMessage = `File (${this.profilePath}) doesn't exist in the fil system.`;
             throw new Error(errorMessage);
         }
 
@@ -33,7 +36,7 @@ class PartnersProfile {
             *       To keep things simple non-async one is used.
             * */
 
-            return require(this.profilePath);
+            return this.readFileUsingRequire(this.profilePath);
         } catch (error) {
             console.error(error);
 
@@ -132,7 +135,7 @@ class PartnersProfile {
 
     getPartnerProfilesWithinHundredKilometersOrderByCompanyNamesDisplay() {
         const profilesWithinFilter = this.getQuickestDistanseProfilesWithinHundredKilometers();
-        
+
         if (!profilesWithinFilter || !profilesWithinFilter.length) {
             console.warn('No filter data found within 100km rage.');
 

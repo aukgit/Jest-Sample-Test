@@ -1,3 +1,5 @@
+const converterUtility = require('../utilities/converterUtility').ConverterUtility;
+
 class Coordinate {
     constructor(coordinates) {
         if (!coordinates || typeof (coordinates) !== 'string') {
@@ -46,8 +48,6 @@ class Coordinate {
         if(this === anotherCoordinate){
             return 0;
         }
-
-        const converterUtility = require('../utilities/converterUtility').ConverterUtility;
 
         return converterUtility.getDistance(
             this.x,
