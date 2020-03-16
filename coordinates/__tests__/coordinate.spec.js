@@ -31,8 +31,8 @@ describe('Coordinate class tests', () => {
       }
 
       // Assert
-      expect(createdCoordinate).not.toBe(null);
-      expect(actualThrownError).not.toBe(null);
+      expect(createdCoordinate).not.toBeNull();
+      expect(actualThrownError).not.toBeNull();
       expect(actualThrownError.message).toBe(errorMessage);
     });
 
@@ -87,7 +87,7 @@ describe('Coordinate class tests', () => {
       }
 
       // Assert
-      expect(actualThrownError).not.toBe(null);
+      expect(actualThrownError).not.toBeNull();
       expect(actualThrownError.message).toBe(errorMessage);
     });
   });
@@ -127,7 +127,7 @@ describe('Coordinate class tests', () => {
       }
 
       // Assert
-      expect(actualThrownError).not.toBe(null);
+      expect(actualThrownError).not.toBeNull();
       expect(actualThrownError.message).toBe(errorMessage);
     });
 
@@ -156,7 +156,7 @@ describe('Coordinate class tests', () => {
       }
 
       // Assert
-      expect(actualThrownError).not.toBe(null);
+      expect(actualThrownError).not.toBeNull();
       expect(actualThrownError.message).toBe(errorMessage);
     });
 

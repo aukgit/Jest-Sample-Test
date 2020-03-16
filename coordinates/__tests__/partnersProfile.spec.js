@@ -81,7 +81,7 @@ describe('PartnersProfile class tests', () => {
       }
 
       // Assert
-      expect(actualThrownError).not.toBe(null);
+      expect(actualThrownError).not.toBeNull();
       expect(actualThrownError.message).toBe(errorMessage);
     });
 
@@ -94,7 +94,7 @@ describe('PartnersProfile class tests', () => {
       const actual = new PartnersProfile(input);
 
       // Assert
-      expect(actual).not.toBe(null);
+      expect(actual).not.toBeNull();
       expect(actual).toBeDefined();
       expect(actual.profilePath).toBe(input);
     });
@@ -160,7 +160,7 @@ describe('PartnersProfile class tests', () => {
       }
 
       // Assert
-      expect(actualError).not.toBe(null);
+      expect(actualError).not.toBeNull();
       expect(actualError.message).toBe(message);
       expect(consoleMock).toHaveBeenCalledTimes(expectedConsoleCalls);
       expect(consoleMock).toHaveBeenCalledWith(message);
@@ -383,7 +383,7 @@ describe('PartnersProfile class tests', () => {
       const actual = instance.getPartnerProfiles();
 
       // Assert
-      expect(actual).not.toBe(null);
+      expect(actual).not.toBeNull();
       expect(actual).not.toBe(undefined);
       expect(readFileMock).toHaveBeenCalledTimes(expectedCalls);
       expect(readFileMock).toHaveBeenCalledWith(instance.profilePath);

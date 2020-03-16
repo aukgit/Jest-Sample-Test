@@ -36,7 +36,7 @@ describe('deep copy/cloning', () => {
       }
 
       // Assert
-      expect(actualThrownError).not.toBe(null);
+      expect(actualThrownError).not.toBeNull();
       expect(actualThrownError.message).toBe(errorMessage);
     });
 
