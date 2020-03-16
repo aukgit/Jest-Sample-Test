@@ -384,7 +384,7 @@ describe('PartnersProfile class tests', () => {
 
       // Assert
       expect(actual).not.toBeNull();
-      expect(actual).not.toBe(undefined);
+      expect(actual).not.toBeUndefined();
       expect(readFileMock).toHaveBeenCalledTimes(expectedCalls);
       expect(readFileMock).toHaveBeenCalledWith(instance.profilePath);
       expect(actual).toBe(expected);
