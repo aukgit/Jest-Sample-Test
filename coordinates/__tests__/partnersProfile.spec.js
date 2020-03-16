@@ -298,7 +298,7 @@ describe('PartnersProfile class tests', () => {
       getDistanceMock.mockRestore();
     });
 
-    test(`Is NOT within 100km range (> 100KM), adds distance and don't remove from office address.`, () => {
+    test(`Is NOT within 100km range (> 100KM), removes address from the offices array.`, () => {
       // Arrange
       const expectedCalls = 1;
       const getDistanceMock = jest.spyOn(idealCoordinate, 'getDistanceOf');
