@@ -1,35 +1,30 @@
 const Coordinate = require('./coordinate').Coordinate;
 const idealCoordinateString = '51.515419,-0.141099';
 const idealCoordinate = new Coordinate(idealCoordinateString);
+const fs = require('fs');
 
 class PartnersProfile {
     /**
      * @param {string} profilePath : Provide an absolute path to the partners file.
      */
     constructor(profilePath) {
-        if (!profilePath) {
+        if (!profilePath || typeof (profilePath) !== 'string') {
             throw new Error('Given profile path is empty or invalid.');
         }
 
         this.profilePath = profilePath;
     }
 
-    static getIdealCordinate() {
-        return
-    }
-
-    static getIdealCordinateObject() {
-        return new Coordinate(this.getIdealCordinate());
+    readFileUsingRequire(path) {
+        return require(path);
     }
 
     /**
      * reading json file from file system and returns the JSON of partners as object.
      */
     getPartnerProfiles() {
-        const fs = require('fs');
-
         if (!fs.existsSync(this.profilePath)) {
-            const errorMessage = 'File (' + this.profilePath + ') doesn\'s exist in the file system.';
+            const errorMessage = `File (${this.profilePath}) doesn't exist in the fil system.`;
             throw new Error(errorMessage);
         }
 
@@ -40,9 +35,11 @@ class PartnersProfile {
             *       However, for this case it is not important.
             *       To keep things simple non-async one is used.
             * */
-            return require(this.profilePath);
+
+            return this.readFileUsingRequire(this.profilePath);
         } catch (error) {
             console.error(error);
+
             return null;
         }
     }
@@ -64,6 +61,7 @@ class PartnersProfile {
         // if any office address within range then returns true for that office
         let returningResult = false;
         const officeAddressesLength = partnerProfile.offices.length;
+
         for (let officeIndex = officeAddressesLength - 1; officeIndex >= 0; officeIndex--) {
             if (this.isCurrentAddressWithinHundredKilomitersRangeExceptDropAddress(partnerProfile, officeIndex)) {
                 returningResult = true;
@@ -103,12 +101,13 @@ class PartnersProfile {
 
         // Note: Not using profiles.filter, because 
         //       this.filterPartnerProfileWithinHundredKilometers calls other functions from inside.
-        if(!profiles || !profiles.length){
+        if (!profiles || !profiles.length) {
             console.log('No partners profile found');
             return;
         }
 
         const results = [];
+
         profiles.forEach(profile => {
             if (this.filterPartnerProfileWithinHundredKilometers(profile)) {
                 results.push(profile);
@@ -119,19 +118,33 @@ class PartnersProfile {
     }
 
     partnerProfileOrderByCompanyNameAscending(firstProfile, secondProfile) {
+        const isInvalid = !firstProfile ||
+            !secondProfile ||
+            !firstProfile.organization ||
+            !secondProfile.organization;
+
+        if (isInvalid) {
+            const message = 'Given profile is either invalid or doesn\' have "organization" property.';
+            console.error(message);
+
+            throw new Error(message);
+        }
+
         return firstProfile.organization - secondProfile.organization;
     }
 
     getPartnerProfilesWithinHundredKilometersOrderByCompanyNamesDisplay() {
         const profilesWithinFilter = this.getQuickestDistanseProfilesWithinHundredKilometers();
-        const orderByProfiles = profilesWithinFilter.sort(this.partnerProfileOrderByCompanyNameAscending);
-        if (!orderByProfiles || !orderByProfiles.length) {
+
+        if (!profilesWithinFilter || !profilesWithinFilter.length) {
             console.warn('No filter data found within 100km rage.');
 
             return;
         }
 
+        const orderByProfiles = profilesWithinFilter.sort(this.partnerProfileOrderByCompanyNameAscending);
         const results = [];
+
         orderByProfiles.forEach(profile => {
             (profile.offices || []).forEach(office => {
                 const distance = office.distance;
@@ -146,6 +159,12 @@ class PartnersProfile {
 
     debugPrintPartnerProfilesWithinHundredKilometersOrderByCompanyName() {
         const profilesDisplay = this.getPartnerProfilesWithinHundredKilometersOrderByCompanyNamesDisplay();
+
+        if (!profilesDisplay || !profilesDisplay.length) {
+            console.log('No records found within range.');
+
+            return;
+        }
 
         profilesDisplay.forEach(profileDisplay => {
             console.log(profileDisplay);
