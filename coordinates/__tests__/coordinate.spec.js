@@ -2,7 +2,7 @@ const Coordinate = require('../coordinate').Coordinate;
 const idealCoordinate = require('../partnersProfile').IdealCoordinate;
 
 describe('Coordinate class tests', () => {
-  describe('Coordinate.constructor(string)', () => {
+  describe('[Constructor Testing] Coordinate.constructor(string)', () => {
     // Arrange (Global for this method only)
     const errorMessage = 'Given cordinate is not valid.';
 
@@ -18,7 +18,7 @@ describe('Coordinate class tests', () => {
       ['1.5,y', '1.5,y'],
     ];
 
-    test.each(invalidTestCases)('Invlaid input(%p->%s) -> Coordinate.constructor(string) throws error.', (input) => {
+    test.each(invalidTestCases)('[Invlaid] Input(%p->%s) -> Coordinate.constructor(string) throws error.', (input) => {
       // Arrange
       let actualThrownError = null;
       let createdCoordinate;
@@ -37,7 +37,7 @@ describe('Coordinate class tests', () => {
     });
 
 
-    test('Invlaid string input("any thing which doesn\'t have coma") -> Coordinate.constructor(string) keeps isValid flag to false.', () => {
+    test('[Invlaid] String input("any thing which doesn\'t have coma") -> Coordinate.constructor(string) keeps isValid flag to false.', () => {
       // Arrange
       const input = 'anystring';
 
@@ -54,7 +54,7 @@ describe('Coordinate class tests', () => {
       ['5.1, 2.5']
     ];
 
-    test.each(validTestCases)('Valid string input("%p") -> Coordinate.constructor(string) keeps isValid flag to true.', (input) => {
+    test.each(validTestCases)('[Valid] String input("%p") -> Coordinate.constructor(string) keeps isValid flag to true.', (input) => {
       // Arrange
       const splitArray = input.split(',');
       const first = parseFloat(splitArray[0].trim());
@@ -71,12 +71,12 @@ describe('Coordinate class tests', () => {
   });
 
   describe('Coordinate.throwIfInvalid()', () => {
-    test('throws if flag is not valid.', () => {
+    test('[Integration] Throws if flag is not valid.', () => {
       // Arrange
       const input = 'anystring';
       let actualThrownError;
       const errorMessage =
-        'Current cordinates(' + input + ') are not valid. Value: ' + input;
+        `Current cordinates(${input}) are not valid. Value: ${input}`;
 
       // Act
       try {
@@ -93,7 +93,7 @@ describe('Coordinate class tests', () => {
   });
 
   describe('Coordinate.toString()', () => {
-    test('Coordinate("1, 2") returns given cordinates string("1, 2").', () => {
+    test('[Integration] Coordinate("1, 2").toString() returns given cordinates string ("1, 2").', () => {
       // Arrange
       const input = '1, 2';
 
@@ -111,12 +111,12 @@ describe('Coordinate class tests', () => {
       'throwIfInvalid'
     ];
 
-    test.each(methodsTotest)('%p() -> throws if flag is not valid.', (methodName) => {
+    test.each(methodsTotest)('[Invalid] %p() -> throws if flag is not valid.', (methodName) => {
       // Arrange
       const input = 'anystring';
       let actualThrownError;
       const errorMessage =
-        'Current cordinates(' + input + ') are not valid. Value: ' + input;
+        `Current cordinates(${input}) are not valid. Value: ${input}`;
 
       // Act
       try {
@@ -142,7 +142,7 @@ describe('Coordinate class tests', () => {
       anotherCoordinate,
     ];
 
-    test.each(inValidTestCasesForGetDistanceOf)('getDistanceOf(%p) -> throws if flag is not valid.', (input) => {
+    test.each(inValidTestCasesForGetDistanceOf)('[Error/Exception Testing] getDistanceOf(%p) -> throws if flag is not valid.', (input) => {
       // Arrange
       let actualThrownError;
       const errorMessage = 'Given cordinates are not valid.';
@@ -160,7 +160,7 @@ describe('Coordinate class tests', () => {
       expect(actualThrownError.message).toBe(errorMessage);
     });
 
-    test('.throwIfInvalid() -> , converterUtility.getDistance() mutation verification and same one return 0 distance.', () => {
+    test('[Mutation Verification] .throwIfInvalid() -> , converterUtility.getDistance() same one return 0 distance.', () => {
       // Arrange
       const input = '1, 2';
       const input2 = '1, 3';
@@ -170,6 +170,7 @@ describe('Coordinate class tests', () => {
       const throwIfInValidMock = jest.spyOn(instance, 'throwIfInvalid');
       throwIfInValidMock.mockImplementation(_ => { });
       // same.getDistanceOf(same) -> 2, another.getDistanceOf(same) -> 1
+      // total = 3
       const expectedCallsForthrowIfInValidMock = 3;
       const expectedCallsForgetDistanceUtilityMock = 1;
       const converterUtility = require('../../utilities/converterUtility').ConverterUtility;

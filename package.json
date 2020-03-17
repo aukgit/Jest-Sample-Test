@@ -19,14 +19,8 @@
     "dev-all": "jest --coverage --watchAll",
     "dev": "jest --coverage --watch"
   },
-  "dependencies": {
-    "moment": "2.24.0",
-    "uuid": "3.3.3"
-  },
+  "dependencies": {},
   "devDependencies": {
-    "@types/node": "~8.9.4",
-    "@types/uuid": "3.4.6",
-    "jest": "25.1.0",
-    "prettier": "1.19.1"
+    "jest": "25.1.0"
   }
 }

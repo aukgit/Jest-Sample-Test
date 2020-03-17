@@ -38,6 +38,8 @@ describe('ConverterUtility class tests.', () => {
       ]
     ]
 
+    const parameterIndenting = '\n\t\t\t';
+
     /**
      * Input : Latitude 1: 53.32055555555556
      * Longitude 1: -1.7297222222222221
@@ -45,7 +47,7 @@ describe('ConverterUtility class tests.', () => {
      * Longitude 2: -1.6997222222222223
      * Output: Distance is: 2.0043678382716137 Kilometers
      */
-    test.each(testCases)('[Integration] .getDistance(lat1:%s, long1: %s, lat2: %s, long2:%s) should return %s', (lat1, long1, lat2, long2, expected) => {
+    test.each(testCases)(`[Integration] .getDistance(${parameterIndenting}lat1:%s, ${parameterIndenting}long1: %s, ${parameterIndenting}lat2: %s, ${parameterIndenting}long2:%s) -> should return '%s'`, (lat1, long1, lat2, long2, expected) => {
       // Act
       const actual = converterUtility.getDistance(lat1, long1, lat2, long2);
 

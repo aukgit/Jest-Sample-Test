@@ -57,7 +57,7 @@ const sampleProfiles = [
 ];
 
 describe('PartnersProfile class tests', () => {
-  describe('.constructor(string)', () => {
+  describe('[Constructor Testing] .constructor(string)', () => {
     // Arrange (Global for this method only)
     const errorMessage = 'Given profile path is empty or invalid.';
 
@@ -68,7 +68,7 @@ describe('PartnersProfile class tests', () => {
       [{}, '{}(AnyObject)'],
     ];
 
-    test.each(invalidTestCases)('Invlaid input(%p->%s) -> PartnersProfile.constructor(string) throws error.', (input) => {
+    test.each(invalidTestCases)('[Invlaid] Input(%p -> %s) -> PartnersProfile.constructor(string) throws error.', (input) => {
       // Arrange
       let actualThrownError = null;
       let actual = null;
@@ -86,7 +86,7 @@ describe('PartnersProfile class tests', () => {
     });
 
 
-    test('Invlaid string PartnersProfile.constructor(string -> meaning giving invalid path string) -> doesn\'t throw any error.', () => {
+    test(`[Invlaid] String('anystring,$$##@') PartnersProfile.constructor(string -> meaning giving invalid path string) -> doesn't throw any error.`, () => {
       // Arrange
       const input = 'anystring,$$##@';
 
@@ -145,7 +145,7 @@ describe('PartnersProfile class tests', () => {
       [[inValidProfileWithOrganization, validProfileWithOrganization], expectedMessage],
     ]
 
-    test.each(invalidTestCases)(`[Invalid] When (%p->%s), prints "%s"`, (inputArray, message) => {
+    test.each(invalidTestCases)(`[Invalid] When (%p), prints "%s"`, (inputArray, message) => {
       // Arrange
       const consoleMock = jest.spyOn(global.console, 'error');
       consoleMock.mockImplementation(_ => { });
@@ -169,7 +169,7 @@ describe('PartnersProfile class tests', () => {
       consoleMock.mockRestore();
     });
 
-    test(`[Valid] When (org:5- org:3) returns 2.`, () => {
+    test(`[Integration, Valid] When (organization:5 - organization:3) returns 2.`, () => {
       // Arrange
       const expected = 2;
 
@@ -250,7 +250,7 @@ describe('PartnersProfile class tests', () => {
       consoleMock.mockRestore();
     });
 
-    test(`filterPartnerProfileWithinHundredKilometers() must be called for filtering.`, () => {
+    test(`[Mutation] filterPartnerProfileWithinHundredKilometers() must be called at once for filtering.`, () => {
       // Arrange
       const expectedCalls = 1;
       const mock = jest.spyOn(instance, instance.getPartnerProfiles.name);
@@ -274,7 +274,7 @@ describe('PartnersProfile class tests', () => {
   });
 
   describe('.isCurrentAddressWithinHundredKilomitersRangeExceptDropAddress(partnerProfile, officeIndex) returns true if within 100Km range and mutates or removes office address from array if not within range.', () => {
-    test(`Is within 100km range, adds distance and don't remove from office address.`, () => {
+    test(`[Within Range] Is within 100km range, adds distance and don't remove from office address.`, () => {
       // Arrange
       const expectedCalls = 1;
       const getDistanceMock = jest.spyOn(idealCoordinate, 'getDistanceOf');
@@ -298,7 +298,7 @@ describe('PartnersProfile class tests', () => {
       getDistanceMock.mockRestore();
     });
 
-    test(`Is NOT within 100km range (> 100KM), removes address from the offices array.`, () => {
+    test(`[NOT Within Range] Is NOT within 100km range (> 100KM), removes address from the offices array.`, () => {
       // Arrange
       const expectedCalls = 1;
       const getDistanceMock = jest.spyOn(idealCoordinate, 'getDistanceOf');
@@ -427,7 +427,7 @@ describe('PartnersProfile class tests', () => {
   });
 
   describe(`.filterPartnerProfileWithinHundredKilometers() returns true if any address is within range of 100km from IdealCoordinate(${idealCoordinate.coordinates}).`, () => {
-    test(`[Invalid, Integration] Returns false 'office' property doesn't exist 'office'(undefined/null/[]) or profile is undefined/null.`, () => {
+    test(`[Invalid, Integration] Returns false 'office' property doesn't exist or 'office'(undefined/null/[]) or profile is undefined/null.`, () => {
       // Arrange
       const sampleProfile = deepCloner.deepClone(sampleProfiles[0]);
       sampleProfile.offices = [];
@@ -443,7 +443,7 @@ describe('PartnersProfile class tests', () => {
 
     const validSampleProfile = deepCloner.deepClone(sampleProfiles[0]);
 
-    test(`[Valid Input, Using Mock] If office address coordinate is not within range then returns false.`, () => {
+    test(`[Valid, Using Mock] If office address coordinate is not within range then returns false.`, () => {
       // Arrange
       const expectedCalls = 2; // since two office addresses
       const isAddressExistMock = jest.spyOn(instance, instance.isCurrentAddressWithinHundredKilomitersRangeExceptDropAddress.name);
@@ -478,7 +478,7 @@ describe('PartnersProfile class tests', () => {
     });
   });
 
-  it('idealCoordinate should be "51.515419,-0.141099"', () => {
+  it('[Integration] idealCoordinate should be "51.515419,-0.141099"', () => {
     expect(idealCoordinate.coordinates).toBe('51.515419,-0.141099');
   });
 
