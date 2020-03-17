@@ -1,15 +1,16 @@
 # Jest-Sample-Test by Md. Alim Ul Karim 
 
 # Video (Demo)
-- Demonstration: 
+- Demonstration: https://drive.google.com/open?id=1ITtB1IIQOQLgTU8iT3wZyn3L8GOYAQqD
 
 # Links
 
-- Secret Gist Link:
+- Secret Gist Link: https://gist.github.com/aukgit/b382b9288e73e88f73299aa7f27e99f2
+- Slides: https://docs.google.com/presentation/d/1cDNmmJbwDl8QM2o4qzHsSUUVTcSPsB4uFXArTojVcJo/edit?usp=sharing
 - GitHub Repository (Private, can add collaborators): https://github.com/aukgit/Jest-Sample-Test/
-- G Drive Link: https://drive.google.com/open?id=1HJv55cLCE-b2RyCYjJhuGLk6HCstn-lj
+- G Drive Link: https://drive.google.com/open?id=1HJv55cLCE-b2RyCYjJhuGLk6HCstn-lj (repo zip should be exist)
 - Coverage : https://drive.google.com/open?id=19aPGLbHdmvueNrcNorOmRXG9yms_jm2y
-- 
+
 
 ## Task : 01 (Deep Cloning)
 
@@ -17,8 +18,8 @@ Write a function called deepClone which takes an object and creates a copy of it
 `{name: "Paddy", address: {town: "Lerum", country: "Sweden"}}` -> `{name: "Paddy", address: {town: "Lerum", country: "Sweden"}}`
 
 ### Task : 01 (Solution)
-- Solution : `deepCloner.js` and specs `deepCloner.spec.js` (With 100% code coverage and mutation coverage.)
-- `cloningUtility.js` is used for display and ignored from coverage.
+- Solution : [`deepCloner.js`](https://gist.github.com/aukgit/b382b9288e73e88f73299aa7f27e99f2#file-deepcloner-js) and specs [`deepCloner.spec.js`](https://gist.github.com/aukgit/b382b9288e73e88f73299aa7f27e99f2#file-deepcloner-spec-js) (With 100% code coverage and mutation coverage.)
+- [`cloningUtility.js`](https://gist.github.com/aukgit/b382b9288e73e88f73299aa7f27e99f2#file-cloningutility-js) is used for display and ignored from coverage.
 
 **Notes**: 
 Deep cloner takes any object and verifies if it is not a string, function or number then the given object is a valid one then converts to JSON string and then converts that string back to object returns a total deep clone of the object given.
@@ -34,10 +35,13 @@ You can use the first formula from this Wikipedia article (https://en.wikipedia.
 
 ### Task : 02 (Solution)
 - Solution : 
-  - `converterUtility.js` (Calculation logic for distance) 
-  - `coordinate.js` (Coordinate class) 
-  - `partnersProfile.js` (Logic to get the profiles within range) 
+  - [`converterUtility.js`](https://gist.github.com/aukgit/b382b9288e73e88f73299aa7f27e99f2#file-converterutility-js) (Calculation logic for distance) 
+  - [`coordinate.js`](https://gist.github.com/aukgit/b382b9288e73e88f73299aa7f27e99f2#file-coordinate-js) (Coordinate class) 
+  - [`partnersProfile.js`](https://gist.github.com/aukgit/b382b9288e73e88f73299aa7f27e99f2#file-partnersprofile-js) (Logic to get the profiles within range) 
   - Specs are in respective files with 'spec' and 100% code coverage and 90% > mutation coverage.
+    - [`converterUtility.spec.js`](https://gist.github.com/aukgit/b382b9288e73e88f73299aa7f27e99f2#file-converterutility-spec-js)
+    - [`coordinate.spec.js`](https://gist.github.com/aukgit/b382b9288e73e88f73299aa7f27e99f2#file-coordinate-spec-js)
+    - [`partnersprofile.spec.js`](https://gist.github.com/aukgit/b382b9288e73e88f73299aa7f27e99f2#file-partnersprofile-spec-js)
 
 ### Code Coverage Screenshots
 ![image](https://user-images.githubusercontent.com/4561204/76790296-c5fd3200-67e8-11ea-8565-6f9b998cb5da.png)
@@ -209,6 +213,6 @@ reading partners from: D:\PersonalWork\Github\Jest-Sample-Test\data\partners.jso
 - `node app` will start and run the application.
 
 ### Contact
-[Md. Alim Ul Karim](https://www.linkedin.com/in/alimkarim) | [aukgit](https://github.com/aukgit/Jest-Sample-Test)
-Email: devorg.bd@gmail.com
-Ex-Crossover C#.NET Software Architect
+- [Md. Alim Ul Karim](https://www.linkedin.com/in/alimkarim) | [aukgit](https://github.com/aukgit/Jest-Sample-Test)
+- Email: devorg.bd@gmail.com
+- Ex-Crossover C#.NET Software Architect
