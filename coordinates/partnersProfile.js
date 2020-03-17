@@ -103,6 +103,7 @@ class PartnersProfile {
         //       this.filterPartnerProfileWithinHundredKilometers calls other functions from inside.
         if (!profiles || !profiles.length) {
             console.log('No partners profile found');
+            
             return;
         }
 
