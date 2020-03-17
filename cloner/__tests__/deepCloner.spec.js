@@ -9,7 +9,7 @@ describe('deep copy/cloning', () => {
     const functionInTest = deepCloner.objectToJsonString;
     const functionName = functionInTest.name;
 
-    test('function \'' + functionName + '\'(arg) exist and has one argumnet.', () => {
+    test(`[Exist function with 1 parameter] '.${functionName}(arg)' exist and has one argumnet.`, () => {
       // Assert
       expect(typeof (functionInTest)).toBe('function');
       expect(functionInTest.length).toBe(1);
@@ -25,7 +25,7 @@ describe('deep copy/cloning', () => {
       [functionInTest, 'function f() {...}']
     ];
 
-    test.each(invalidTestCases)('Invalid Input(%p->%s) should throw Error with message "' + errorMessage + '"', (input) => {
+    test.each(invalidTestCases)('[Invalid] Input(%p->%s) should throw Error with message "' + errorMessage + '"', (input) => {
       let actualThrownError = null;
 
       // Act
@@ -54,7 +54,7 @@ describe('deep copy/cloning', () => {
       [testCaseComplexArray, JSON.stringify(testCaseComplexArray)],
     ];
 
-    test.each(validTestCases)('Valid Input(%p) should return "%s"', (input, expected) => {
+    test.each(validTestCases)('[Valid] Input(%p) should return "%s"', (input, expected) => {
       // Act
       const actual = functionInTest(input);
 
@@ -68,14 +68,14 @@ describe('deep copy/cloning', () => {
     const functionInTest = deepCloner.deepClone;
     const functionName = functionInTest.name;
 
-    test('function \'' + functionName + '\'(arg) exist and has one argumnet.', () => {
+    test(`[Exist function with 1 parameter] '.${functionName}(arg)' exist and has one argumnet.`, () => {
       // Assert
       expect(functionName).toBe('deepClone');
       expect(typeof (functionInTest)).toBe('function');
       expect(functionInTest.length).toBe(1);
     });
 
-    test('[Mocked, Mutation Test] function \'' + functionName + '\'(arg) invokes DeepCloner.objectToJsonString(object) at once.', () => {
+    test(`[Mocked, Mutation] '.${functionName}(arg)' invokes DeepCloner.objectToJsonString(object) at once.`, () => {
       // Arrange
       const expected = { id: 'called' };
       const input = {};
@@ -103,7 +103,7 @@ describe('deep copy/cloning', () => {
       objectToJsonStringMock.mockRestore();
     });
 
-    test('[Integration Test] function \'' + functionName + '\'(arg) deep clones to nth level, at least 4th level json is cloned properly tested.', () => {
+    test(`[Integration] '.${functionName}(arg)' deep clones to nth level, at least 4th level json is cloned properly tested.`, () => {
       // Arrange
       const originalId = 'org-id-1';
       const originalLevel4Value = 'org-level-4';

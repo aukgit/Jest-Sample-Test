@@ -45,7 +45,7 @@ describe('ConverterUtility class tests.', () => {
      * Longitude 2: -1.6997222222222223
      * Output: Distance is: 2.0043678382716137 Kilometers
      */
-    test.each(testCases)('[Integration] .getDistance(lat1:%s, long1: %s, lat2: %s, long2:%s) should return %s', (lat1, long1, lat2, long2, expected) => {
+    test.each(testCases)('[Integration] .getDistance(\n\t\tlat1:%s, \n\t\tlong1: %s, \n\t\tlat2: %s, \n\t\tlong2:%s) -> should return %s', (lat1, long1, lat2, long2, expected) => {
       // Act
       const actual = converterUtility.getDistance(lat1, long1, lat2, long2);
 
