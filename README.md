@@ -6,7 +6,7 @@
 # Links
 
 - Secret Gist Link:
-- GitHub Repository (Private, can add collaborators)
+- GitHub Repository (Private, can add collaborators): https://github.com/aukgit/Jest-Sample-Test/
 - G Drive Link: https://drive.google.com/open?id=1HJv55cLCE-b2RyCYjJhuGLk6HCstn-lj
 - Coverage : https://drive.google.com/open?id=19aPGLbHdmvueNrcNorOmRXG9yms_jm2y
 - 
